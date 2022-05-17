@@ -16,6 +16,8 @@ def format_temperature(temp):
     return f"{temp}{DEGREE_SYBMOL}"
 
 
+# print(format_temperature('57')) #example in class - testing how the function is working, outside the function-DO NOT leave in assignment
+
 def convert_date(iso_string):
     """Converts and ISO formatted date into a human readable format.
 
@@ -24,7 +26,12 @@ def convert_date(iso_string):
     Returns:
         A date formatted like: Weekday Date Month Year e.g. Tuesday 06 July 2021
     """
-    pass
+    # format = "%A %d %B %Y"
+    # date_string = datetime.strftime(iso_string)
+    # date = datetime.strptime(date_string, format)
+    # # date = datetime.strptime(iso_string, format)
+    # return (date)
+    # pass
 
 
 def convert_f_to_c(temp_in_farenheit):
@@ -35,8 +42,11 @@ def convert_f_to_c(temp_in_farenheit):
     Returns:
         A float representing a temperature in degrees celcius, rounded to 1dp.
     """
-    pass
+    temp_in_c = (float(temp_in_farenheit) - 32)/1.8
+    return (round(temp_in_c, 1))
+    # pass
 
+# print(convert_f_to_c (100))
 
 def calculate_mean(weather_data):
     """Calculates the mean value from a list of numbers.
@@ -46,7 +56,13 @@ def calculate_mean(weather_data):
     Returns:
         A float representing the mean value.
     """
-    pass
+    A = 0
+    num_length = len(weather_data)
+    for num in weather_data[1]:
+        A += num
+    mean = float(A / num_length)
+    return mean
+    # pass
 
 
 def load_data_from_csv(csv_file):
@@ -68,6 +84,21 @@ def find_min(weather_data):
     Returns:
         The minium value and it's position in the list.
     """
+    # min_temp = weather_data[0]
+    # for num in weather_data:
+    #     if num < min_temp:
+    #         min_temp = num
+    # return min_temp
+
+    min_temp = weather_data[0]
+    min_location = 0
+    min_index = 0
+    for num in weather_data[0]:
+        if num < min_temp:
+            min_temp = num
+            min_location = min_index
+        min_index +=1
+
     pass
 
 
@@ -79,6 +110,11 @@ def find_max(weather_data):
     Returns:
         The maximum value and it's position in the list.
     """
+    max_temp = weather_data[1]
+    for num in weather_data:
+        if num > max_temp:
+            max_temp = num
+    return max_temp
     pass
 
 
