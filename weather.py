@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+from operator import index
 # 1 2 3
 DEGREE_SYBMOL = u"\N{DEGREE SIGN}C"
 
@@ -64,13 +65,13 @@ def load_data_from_csv(csv_file):
     # Returns:
     #     A list of lists, where each sublist is a (non-empty) line in the csv file.
     # """
-    list_a = []
+    a = []
     with open(csv_file, mode = 'r', encoding = "utf-8") as csv_file:
         csv_reader = csv.reader(csv_file,delimiter=",")
         for index,line in enumerate(csv_reader):
-            if line != [] and index !=0:
-                list_a.append([line[0],int(line[1]),int(line[2])])
-    return list_a
+            if index !=0 and line != []:
+                a.append([line[0],int(line[1]),int(line[2])])
+    return a
 
 
 def find_min(weather_data):
@@ -125,16 +126,26 @@ def generate_summary(weather_data):
     Returns:
         A string containing the summary information.
     """
-    abc = weather_data[0]
-    # return abc
-    pass
+    min_temp_list = []
+    max_temp_list = []
+    summary = ""
+    for line in weather_data:
+        min_temp_list.append(line[1])
+        max_temp_list.append(line[2])
+    min_temp, min_index = find_min(min_temp_list)
+    max_temp, max_index = find_max(max_temp_list)
+    min_date = weather_data[min_index][0]
+    max_date = weather_data[max_index][0]
+    avg_min = calculate_mean(min_temp_list)
+    avg_max = calculate_mean(max_temp_list)
+    summary = summary + f"{len(weather_data)} Day Overview\n"
+    summary += f"  The lowest temperature will be {(format_temperature(convert_f_to_c(min_temp)))}, and will occur on {convert_date(min_date)}.\n"
+    summary += f"  The highest temperature will be {format_temperature(convert_f_to_c(max_temp))}, and will occur on {convert_date(max_date)}.\n" 
+    summary += f"  The average low this week is {format_temperature(convert_f_to_c(avg_min))}.\n" 
+    summary += f"  The average high this week is {format_temperature(convert_f_to_c(avg_max))}.\n"
+    return summary
 
-# print(generate_summary([
-#             ["2021-07-02T07:00:00+08:00", 49, 67],
-#             ["2021-07-03T07:00:00+08:00", 57, 68],
-#             ["2021-07-04T07:00:00+08:00", 56, 62],
-#             ["2021-07-05T07:00:00+08:00", 55, 61],
-#             ["2021-07-06T07:00:00+08:00", 53, 62]]))
+
 
 def generate_daily_summary(weather_data):
     """Outputs a daily summary for the given weather data.
